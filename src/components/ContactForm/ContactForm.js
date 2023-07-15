@@ -2,26 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import styles from './ContactForm.module.css';
 
 const initialValues = { name: '', number: '', id: '' };
 
-const validationSchema = Yup.object({
-  name: Yup.string().required(),
-  number: Yup.string()
-    .min(1, 'Need 7 numbers')
-    .max(7, 'Need 7 numbers')
-    .required(),
-});
-
 export class ContactForm extends React.Component {
   state = { name: '', number: '' };
 
-  handleSubmit = (values, { resetForm }) => {
+  handleSubmit = values => {
+    console.log(values);
     initialValues.id = nanoid();
     this.props.onSubmit(values);
-    resetForm();
+    this.setState({ name: '', number: '', id: '' });
   };
 
   handleChange = e => {
@@ -32,11 +24,7 @@ export class ContactForm extends React.Component {
 
   render() {
     return (
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={this.handleSubmit}
-      >
+      <Formik initialValues={initialValues} onSubmit={this.handleSubmit}>
         <Form className={styles.form}>
           <label htmlFor="name" className={styles.label}>
             Name
@@ -47,7 +35,7 @@ export class ContactForm extends React.Component {
             name="name"
             value={this.state.name}
             onChange={this.handleChange}
-            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я])$"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я])$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           />
 
@@ -60,7 +48,7 @@ export class ContactForm extends React.Component {
             name="number"
             value={this.state.number}
             onChange={this.handleChange}
-            pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+            // pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           />
 
