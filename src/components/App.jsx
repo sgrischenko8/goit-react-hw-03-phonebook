@@ -1,9 +1,10 @@
-import React from 'react';
+import { PureComponent } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { nanoid } from 'nanoid';
 
-class App extends React.Component {
+class App extends PureComponent {
   state = {
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -23,12 +24,16 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
+    if (
+      JSON.stringify(prevState.contacts) !== JSON.stringify(this.state.contacts)
+    ) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
   formSubmitHandler = data => {
+    data.id = nanoid();
+
     this.setState(prevState => {
       return prevState.contacts.some(
         contact => contact.name.toLowerCase() === data.name.toLowerCase()
@@ -71,7 +76,7 @@ class App extends React.Component {
         }}
       >
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.formSubmitHandler} />
+        <ContactForm onSubmitHandle={this.formSubmitHandler} />
 
         <h2>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter} />
