@@ -5,8 +5,9 @@ import styles from './ContactForm.module.css';
 const initialValues = { name: '', number: '' };
 
 export const ContactForm = ({ onSubmitHandle }) => {
-  function handleSubmit(values) {
+  function handleSubmit(values, actions) {
     onSubmitHandle(values);
+    actions.resetForm();
   }
 
   return (
