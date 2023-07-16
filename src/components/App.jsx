@@ -18,7 +18,7 @@ class App extends PureComponent {
   componentDidMount() {
     const contactsFromLocalStorage = localStorage.getItem('contacts');
     const parsedContacts = JSON.parse(contactsFromLocalStorage);
-    if (parsedContacts.length > 0) {
+    if (parsedContacts && parsedContacts.length > 0) {
       this.setState({ contacts: parsedContacts });
     }
   }
