@@ -24,9 +24,7 @@ class App extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      JSON.stringify(prevState.contacts) !== JSON.stringify(this.state.contacts)
-    ) {
+    if (prevState.contacts !== this.state.contacts) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
