@@ -16,11 +16,15 @@ class App extends PureComponent {
   };
 
   componentDidMount() {
-    const contactsFromLocalStorage = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contactsFromLocalStorage);
-    if (parsedContacts && parsedContacts.length > 0) {
-      this.setState({ contacts: parsedContacts });
+    if (!localStorage.getItem('contacts')) {
+      return;
     }
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (parsedContacts.length === 0) {
+      return;
+    }
+
+    this.setState({ contacts: parsedContacts });
   }
 
   componentDidUpdate(prevProps, prevState) {
